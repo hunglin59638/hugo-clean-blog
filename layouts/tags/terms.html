@@ -12,17 +12,33 @@
   <nav class="tag-nav" style="display: none;">
   </nav>
   
-  <!-- Tags Grid -->
-  <div id="tags-grid" class="terms-list">
+  
+  <!-- Tags Cloud View -->
+  <div id="tags-cloud" class="tags-cloud">
+    {{ $maxCount := 0 }}
+    {{ $minCount := 999999 }}
     {{ range .Data.Terms.ByCount }}
-      <div class="term-item" onclick="showTagPosts('{{ .Page.Title }}', '{{ .Page.RelPermalink }}', event); return false;">
-        <div class="term-item__content">
-          <h2 class="term-item__title">{{ .Page.Title }}</h2>
-          <span class="term-item__count">{{ .Count }} 篇文章</span>
-        </div>
-      </div>
+      {{ if gt .Count $maxCount }}{{ $maxCount = .Count }}{{ end }}
+      {{ if lt .Count $minCount }}{{ $minCount = .Count }}{{ end }}
+    {{ end }}
+    
+    {{ range .Data.Terms.ByCount }}
+      {{ $weight := 1 }}
+      {{ if gt $maxCount $minCount }}
+        {{ $weight = div (sub .Count $minCount) (sub $maxCount $minCount) }}
+        {{ $weight = add (mul $weight 4) 1 }}
+      {{ end }}
+      <a href="{{ .Page.RelPermalink }}" 
+         class="tag-cloud-item" 
+         data-weight="{{ $weight }}"
+         data-count="{{ .Count }}"
+         onclick="showTagPosts('{{ .Page.Title }}', '{{ .Page.RelPermalink }}', event); return false;">
+        {{ .Page.Title }}
+        <span class="tag-count">({{ .Count }})</span>
+      </a>
     {{ end }}
   </div>
+  
   
   <!-- Posts List (hidden by default) -->
   <div id="posts-list" class="posts-list" style="display: none;"></div>

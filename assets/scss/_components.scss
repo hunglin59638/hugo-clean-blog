@@ -1486,3 +1486,203 @@
   background-color: var(--code-bg-color);
   border-radius: 8px;
 }
+
+// View Toggle Buttons
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-xl);
+  
+  .view-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition-base);
+    
+    &:hover {
+      background-color: var(--code-bg-color);
+      border-color: var(--accent-color);
+    }
+    
+    &.active {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+    
+    svg {
+      transition: var(--transition-base);
+    }
+  }
+}
+
+// Tags Cloud
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-xl);
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  margin-bottom: var(--spacing-xl);
+  min-height: 300px;
+  
+  .tag-cloud-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--code-bg-color);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+    
+    // Size variations based on weight
+    &[data-weight="1"] {
+      font-size: 0.8rem;
+      opacity: 0.7;
+    }
+    
+    &[data-weight="2"] {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    &[data-weight="3"] {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    &[data-weight="4"] {
+      font-size: 1.1rem;
+      opacity: 1;
+    }
+    
+    &[data-weight="5"] {
+      font-size: 1.2rem;
+      opacity: 1;
+      font-weight: 600;
+    }
+    
+    // Color intensity based on weight
+    &[data-weight="4"],
+    &[data-weight="5"] {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-color);
+    }
+    
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      
+      &[data-weight="1"],
+      &[data-weight="2"],
+      &[data-weight="3"] {
+        background-color: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+      }
+      
+      &[data-weight="4"],
+      &[data-weight="5"] {
+        background-color: var(--heading-color);
+        border-color: var(--heading-color);
+      }
+    }
+    
+    .tag-count {
+      font-size: 0.75em;
+      opacity: 0.8;
+      margin-left: 0.25rem;
+    }
+    
+    // Animation on load
+    &:nth-child(odd) {
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    &:nth-child(even) {
+      animation: fadeInDown 0.6s ease-out;
+    }
+    
+    // Stagger the animation
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: var(--spacing-lg);
+    justify-content: flex-start;
+    
+    .tag-cloud-item {
+      font-size: 0.85rem !important;
+      padding: 0.4rem 0.8rem;
+      
+      &[data-weight="4"],
+      &[data-weight="5"] {
+        font-size: 0.95rem !important;
+      }
+    }
+  }
+}
+
+// Animations for tag cloud
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Smooth transitions for view switching
+.tags-cloud,
+.terms-list {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}

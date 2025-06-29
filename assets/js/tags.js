@@ -44,12 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Add click listener to document for deselecting tags
   document.addEventListener('click', function(event) {
-    const tagsGrid = document.getElementById('tags-grid');
+    const tagsCloud = document.getElementById('tags-cloud');
     const postsList = document.getElementById('posts-list');
     
-    // Check if click is outside tags grid and posts list
-    if (tagsGrid && postsList && 
-        !tagsGrid.contains(event.target) && 
+    // Check if click is outside tags cloud and posts list
+    if (tagsCloud && postsList && 
+        !tagsCloud.contains(event.target) && 
         !postsList.contains(event.target)) {
       showAllTags();
     }
@@ -71,15 +71,15 @@ function showTagPosts(tagName, tagUrl, event) {
     tagUrl = tagUrl.replace(/%20/g, '-');
   }
   
-  const tagsGrid = document.getElementById('tags-grid');
+  const tagsCloud = document.getElementById('tags-cloud');
   const postsList = document.getElementById('posts-list');
   
   console.log('DOM elements found:', {
-    tagsGrid: !!tagsGrid,
+    tagsCloud: !!tagsCloud,
     postsList: !!postsList
   });
   
-  if (!tagsGrid || !postsList) {
+  if (!tagsCloud || !postsList) {
     console.log('Some elements not found, falling back to navigation');
     // Fallback to normal link behavior if elements not found
     window.location.href = tagUrl;
@@ -88,9 +88,9 @@ function showTagPosts(tagName, tagUrl, event) {
   
   console.log('All elements found, proceeding with dynamic content switching');
   
-  // Remove active class from all tag cards
-  const allTermItems = tagsGrid.querySelectorAll('.term-item');
-  allTermItems.forEach(item => item.classList.remove('active'));
+  // Remove active class from all tag items
+  const allTagItems = tagsCloud.querySelectorAll('.tag-cloud-item');
+  allTagItems.forEach(item => item.classList.remove('active'));
   
   // Add active class to clicked tag card
   if (event && event.currentTarget) {
@@ -160,8 +160,8 @@ function showTagPosts(tagName, tagUrl, event) {
   postsList.style.display = 'block';
   postsList.style.opacity = '1';
   
-  // Add extra spacing between tags grid and posts list
-  tagsGrid.style.marginBottom = 'var(--spacing-xxl)';
+  // Add extra spacing between tags cloud and posts list
+  tagsCloud.style.marginBottom = 'var(--spacing-xxl)';
   postsList.style.marginTop = 'var(--spacing-xxl)';
   
   // Scroll to position the clicked tag card at the top of the viewport
@@ -182,9 +182,9 @@ function showTagPosts(tagName, tagUrl, event) {
 // Show all tags (back to main view)
 function showAllTags() {
   const postsList = document.getElementById('posts-list');
-  const tagsGrid = document.getElementById('tags-grid');
+  const tagsCloud = document.getElementById('tags-cloud');
   
-  if (!postsList || !tagsGrid) {
+  if (!postsList || !tagsCloud) {
     return;
   }
   
@@ -192,12 +192,12 @@ function showAllTags() {
   postsList.style.display = 'none';
   
   // Reset spacing
-  tagsGrid.style.marginBottom = '';
+  tagsCloud.style.marginBottom = '';
   postsList.style.marginTop = '';
   
-  // Remove active class from all tag cards
-  const allTermItems = tagsGrid.querySelectorAll('.term-item');
-  allTermItems.forEach(item => item.classList.remove('active'));
+  // Remove active class from all tag items
+  const allTagItems = tagsCloud.querySelectorAll('.tag-cloud-item');
+  allTagItems.forEach(item => item.classList.remove('active'));
   
   // Scroll to top
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -211,6 +211,8 @@ window.addEventListener('popstate', function(event) {
     showAllTags();
   }
 });
+
+
 
 // Export functions for global access
 window.showTagPosts = showTagPosts;
