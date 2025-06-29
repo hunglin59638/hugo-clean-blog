@@ -46,11 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(event) {
     const categoriesGrid = document.getElementById('categories-grid');
     const postsList = document.getElementById('posts-list');
+    const backToTopBtn = document.getElementById('backToTop');
     
-    // Check if click is outside categories grid and posts list
+    // Check if click is outside categories grid and posts list, but not on back-to-top button
     if (categoriesGrid && postsList && 
         !categoriesGrid.contains(event.target) && 
-        !postsList.contains(event.target)) {
+        !postsList.contains(event.target) &&
+        !backToTopBtn?.contains(event.target)) {
       showAllCategories();
     }
   });
