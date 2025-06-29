@@ -1,0 +1,13 @@
+{{- $copyJs := resources.Get "js/codeblock-copy.js" }}
+{{- $copyOpts := dict
+  "minify" (not hugo.IsDevelopment)
+  "sourceMap" (cond hugo.IsDevelopment "external" "")
+  "targetPath" "js/codeblock-copy.js"
+}}
+{{- $copyJs = $copyJs | js.Build $copyOpts }}
+{{- if hugo.IsDevelopment }}
+  <script src="{{ $copyJs.RelPermalink }}"></script>
+{{- else }}
+  {{- $copyJs = $copyJs | fingerprint }}
+  <script src="{{ $copyJs.RelPermalink }}" integrity="{{ $copyJs.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}

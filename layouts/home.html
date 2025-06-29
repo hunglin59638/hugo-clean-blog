@@ -1,0 +1,155 @@
+{{ define "main" }}
+  <!-- Hero Section (if there's content onhomepage) -->
+  {{ if .Content }}
+    <div class="hero mb-5">
+      {{ .Content }}
+    </div>
+  {{ end }}
+  
+  <!-- 推薦文章 -->
+  {{ $topPosts := where site.RegularPages "Params.top" "==" true }}
+  {{ if $topPosts }}
+    <section class="featured-posts mb-5">
+      <header class="section-header">
+        <h2 class="section-title">
+          <span class="section-icon">⭐</span>
+          推薦文章
+        </h2>
+      </header>
+      
+      <div class="posts-grid">
+        {{ range $index, $post := $topPosts }}
+          <div class="grid-item">
+            <a href="{{ .RelPermalink }}" class="post-card-link">
+              <article class="post-card featured">
+                <header class="post-card__header">
+                  <h3 class="post-card__title">{{ .Title }}</h3>
+                
+                  <div class="post-card__meta">
+                    <span class="meta-item">
+                      <time datetime="{{ .Date.Format `2006-01-02` }}">
+                        {{ .Date.Format "2006年1月2日" }}
+                      </time>
+                    </span>
+                    
+                    {{ if site.Params.enableReadingTime }}
+                      <span class="meta-item">{{ .ReadingTime }} 分鐘閱讀</span>
+                    {{ end }}
+                  </div>
+                </header>
+                
+                {{ if .Summary }}
+                  <div class="post-card__summary">
+                    {{ .Summary | plainify | truncate 100 }}
+                  </div>
+                {{ end }}
+                
+                <footer class="post-card__footer">
+                  <!-- Categories -->
+                  {{ if .Params.categories }}
+                    <div class="post-card__terms">
+                      {{ range first 2 .Params.categories }}
+                        <a href="{{ `/categories/` | relURL }}{{ . | urlize }}" class="category">{{ . }}</a>
+                      {{ end }}
+                    </div>
+                  {{ end }}
+                  
+                  <!-- Tags -->
+                  {{ if .Params.tags }}
+                    <div class="post-card__tags">
+                      {{ range first 3 .Params.tags }}
+                        <a href="{{ `/tags/` | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+                      {{ end }}
+                    </div>
+                  {{ end }}
+                </footer>
+              </article>
+            </a>
+          </div>
+        {{ end }}
+      </div>
+    </section>
+  {{ end }}
+  
+  <!-- 最新文章 -->
+  {{ $recentPosts := first 5 (where site.RegularPages "Type" "in" site.Params.mainSections) }}
+  {{ if $recentPosts }}
+    <section class="recent-posts mt-5">
+      <header class="section-header">
+        <h2 class="section-title">
+          <span class="section-icon">🕒</span>
+          最新文章
+        </h2>
+      </header>
+      
+      <div class="posts-list">
+        {{ range $recentPosts }}
+          <a href="{{ .RelPermalink }}" class="post-card-link">
+            <article class="post-card recent">
+              <header class="post-card__header">
+                <h3 class="post-card__title">{{ .Title }}</h3>
+              
+              <div class="post-card__meta">
+                <span class="meta-item">
+                  <time datetime="{{ .Date.Format `2006-01-02` }}">
+                    {{ .Date.Format "2006年1月2日" }}
+                  </time>
+                </span>
+                
+                {{ if ne .Date .Lastmod }}
+                  <span class="meta-item">
+                    更新於 <time datetime="{{ .Lastmod.Format `2006-01-02` }}">
+                      {{ .Lastmod.Format "2006年1月2日" }}
+                    </time>
+                  </span>
+                {{ end }}
+                
+                {{ if site.Params.enableReadingTime }}
+                  <span class="meta-item">{{ .ReadingTime }} 分鐘閱讀</span>
+                {{ end }}
+                
+                {{ if site.Params.enableWordCount }}
+                  <span class="meta-item">約{{ .FuzzyWordCount }} 字</span>
+                {{ end }}
+              </div>
+            </header>
+            
+            {{ if .Summary }}
+              <div class="post-card__summary">
+                {{ .Summary | plainify | truncate 100 }}
+              </div>
+            {{ end }}
+            
+            <footer class="post-card__footer">
+              <!-- Categories -->
+              {{ if .Params.categories }}
+                <div class="post-card__terms">
+                  {{ range .Params.categories }}
+                    <a href="{{ `/categories/` | relURL }}{{ . | urlize }}" class="category">{{ . }}</a>
+                  {{ end }}
+                </div>
+              {{ end }}
+              
+              <!-- Tags -->
+              {{ if .Params.tags }}
+                <div class="post-card__tags">
+                  {{ range first 3 .Params.tags }}
+                    <a href="{{ `/tags/` | relURL }}{{ . | urlize }}" class="tag">{{ . }}</a>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </footer>
+          </article>
+        </a>
+        {{ end }}
+      </div>
+      
+      <!-- 查看更多按鈕 -->
+      <div class="section-footer">
+        <a href="{{ `/posts/` | relURL }}" class="view-more-btn">
+          查看所有文章 <span class="arrow">→</span>
+        </a>
+      </div>
+    </section>
+  {{ end }}
+{{ end }}

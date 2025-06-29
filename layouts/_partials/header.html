@@ -1,0 +1,57 @@
+<nav class="nav">
+  <div class="nav__container">
+    <!-- Site Brand -->
+    <a href="{{ `/` | relURL }}" class="nav__brand">
+      {{ if site.Params.logo }}
+        <img src="{{ site.Params.logo | relURL }}" alt="{{ site.Title }}" class="nav__logo">
+      {{ end }}
+      <span class="nav__title">{{ site.Title }}</span>
+    </a>
+    
+    <!-- Right Side: Menu & Actions -->
+    <div class="nav__right">
+      <!-- Desktop Menu -->
+      <div class="nav__menu">
+        {{ range site.Menus.main }}
+          <a href="{{ .URL | relURL }}" class="nav__link">{{ .Name }}</a>
+        {{ end }}
+      </div>
+      
+      <!-- Action Buttons -->
+      <div class="nav__actions">
+      <!-- Search Button -->
+      <button class="nav__button search-button" aria-label="搜尋">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="M21 21l-4.35-4.35"></path>
+        </svg>
+      </button>
+      
+      <!-- Theme Toggle -->
+      <button class="nav__button theme-toggle" aria-label="切換主題">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <!-- Sun icon (default) -->
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="nav__button nav__toggle" aria-label="開啟選單">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    </div>
+  </div>
+</nav>

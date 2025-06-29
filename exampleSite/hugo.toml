@@ -1,0 +1,72 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-TW'
+title = 'Clean Blog Theme Demo'
+theme = 'blog'
+
+# Enable syntax highlighting
+[markup]
+  [markup.highlight]
+    style = 'dracula'
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 1
+    endLevel = 3
+
+# Pagination
+paginate = 5
+paginatePath = 'page'
+
+# Taxonomies
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# Main sections for homepage and search
+[params]
+  mainSections = ['posts']
+  author = 'John Doe'
+  description = 'A clean, minimal blog theme for Hugo - Demo Site'
+  
+  # Theme settings
+  defaultTheme = 'auto' # light, dark, auto
+  enableReadingTime = true
+  enableWordCount = true
+  enableTOC = true
+  
+  # Social media links
+  [params.social]
+    github = 'username'
+    twitter = 'username'
+    linkedin = 'username'
+    email = 'example@email.com'
+
+# Output formats for search
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+# Menu configuration
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Categories'
+    pageRef = '/categories'
+    weight = 20
+
+  [[menus.main]]
+    name = 'Tags'
+    pageRef = '/tags'
+    weight = 30
+
+  [[menus.main]]
+    name = 'Archives'
+    pageRef = '/archives'
+    weight = 40

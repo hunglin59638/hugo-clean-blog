@@ -1,0 +1,29 @@
+{{ define "main" }}
+  <header class="archives-header">
+    <h1>文章封存</h1>
+    <p>按時間順序瀏覽所有文章</p>
+  </header>
+  
+  <div class="archives">
+    {{ range (where site.RegularPages "Type" "in" site.Params.mainSections).GroupByDate "2006" }}
+      <div class="archives__year">
+        <h2>{{ .Key }}年</h2>
+      </div>
+      
+      {{ range .Pages.GroupByDate "January" }}
+        <div class="archives__month">
+          <h3>{{ .Key }}</h3>
+          
+          {{ range .Pages }}
+            <div class="archives__post">
+              <span class="date">{{ .Date.Format "01-02" }}</span>
+              <span class="title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </span>
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}

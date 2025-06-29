@@ -1,0 +1,297 @@
+// Syntax highlighting styles for Dracula theme
+.highlight {
+  background-color: #282a36;
+  color: #f8f8f2;
+  border-radius: 6px;
+  overflow: hidden; // Use hidden to contain children within rounded corners and fix pseudo-element display
+  position: relative; // For positioning the copy button
+  margin: var(--spacing-md) 0;
+  margin-top: 18px; // 增加區塊上方間距
+  padding-top: 10px; // 增加程式碼區塊內部上方間距
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  border: none !important;
+  outline: none !important;
+  /* 移除所有子元素的邊框 */
+  * {
+    border: none !important;
+    outline: none !important;
+  }
+  
+  @media (prefers-color-scheme: light) {
+  }
+
+  pre {
+    background-color: transparent;
+    padding: 0; // Remove padding as it will be handled by table cells
+    padding-top: 10px; // 增加程式碼第一行上方間距
+    margin: 0;
+    display: block;
+    overflow-x: auto; // Ensure horizontal scrolling works
+    position: relative; // Positioning context for copy button
+  }
+  
+  code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    flex: 1; // Take remaining space
+    overflow-x: visible; // Allow code to flow naturally
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', 'Monaco', monospace; // Better coding fonts
+    tab-size: 4;
+    -moz-tab-size: 4;
+  }
+  
+  // Line numbers container
+  table {
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    
+    td {
+      padding: 0;
+      vertical-align: top;
+      
+      &.lntd:first-child {
+        // Line numbers column - make sure they are visible but NOT selectable
+        display: table-cell;
+        width: auto;
+        padding: var(--spacing-sm) var(--spacing-md);
+        text-align: right;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+        pointer-events: none !important;
+        background-color: rgba(0, 0, 0, 0.05);
+        color: var(--text-color);
+        opacity: 0.6;
+        border-right: 3px solid #E85D04; // 橘色且加粗分隔線
+        
+        // Make all child elements non-selectable
+        * {
+          user-select: none !important;
+          -webkit-user-select: none !important;
+          -moz-user-select: none !important;
+          -ms-user-select: none !important;
+          pointer-events: none !important;
+        }
+      }
+      
+      &.lntd:last-child {
+        // Code column
+        padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md); // Match vertical padding with line numbers
+        width: 100%;
+      }
+    }
+  }
+  
+  // Ensure line number elements themselves are non-selectable
+  .lnt {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    pointer-events: none !important;
+    opacity: 0.6;
+  }
+  
+  // Copy code button
+  .copy-code-button {
+    position: absolute;
+    top: var(--spacing-xs);
+    right: var(--spacing-xs);
+    background-color: rgba(255, 255, 255, 0.15);
+    border: none;
+    border-radius: 4px;
+    color: #f8f8f2;
+    padding: var(--spacing-xs);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+    opacity: 0.8; // Always somewhat visible
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      opacity: 1;
+    }
+    
+    &:active {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+      opacity: 1;
+    }
+  }
+  
+  // Button states
+  .copy-code-button {
+    &.copied {
+      background-color: rgba(80, 250, 123, 0.3) !important; // Success color
+      color: #50fa7b; // Brighter green for success
+      
+      svg {
+        stroke-width: 3; // Make the checkmark more visible
+      }
+    }
+    
+    &.copy-error {
+      background-color: rgba(255, 85, 85, 0.3) !important; // Error color
+      color: #ff5555; // Brighter red for error
+      
+      svg {
+        stroke-width: 2.5; // Make the X more visible
+      }
+    }
+  }
+  
+  // For when line numbers are disabled
+  &.no-line-numbers {
+    .lntd:first-child {
+      display: none !important;
+    }
+    
+    .lntd:last-child {
+      padding-left: var(--spacing-md);
+    }
+  }
+}
+
+// 強制行號與程式碼內容完全對齊
+.highlight {
+  .lnt,
+  pre,
+  code {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace !important;
+    font-size: 1em !important;
+    line-height: 1.55 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    vertical-align: top !important;
+    box-sizing: border-box;
+  }
+  .lnt {
+    display: block;
+    min-width: 2.5em;
+    text-align: right;
+    color: #6272a4;
+    opacity: 0.8;
+    background: none;
+    border: none;
+    user-select: none !important;
+    pointer-events: none !important;
+  }
+  table.lntable {
+    border-spacing: 0;
+    border-collapse: separate;
+    width: 100%;
+    td.lntd {
+      vertical-align: top !important;
+      padding: 0 !important;
+    }
+    td.lntd:first-child {
+      padding-right: 1em !important;
+      border-right: 3px solid #E85D04 !important; // 橘色且加粗
+      background: none;
+    }
+    td.lntd:last-child {
+      padding-left: 5px !important;
+    }
+  }
+  .chroma {
+    vertical-align: top !important;
+  }
+}
+
+// Dracula color scheme
+.highlight .c, .chroma .c { color: #6272a4; } /* Comment */
+.highlight .err, .chroma .err { color: #f8f8f2; } /* Error */
+.highlight .g, .chroma .g { color: #f8f8f2; } /* Generic */
+.highlight .k, .chroma .k { color: #ff79c6; } /* Keyword */
+.highlight .l, .chroma .l { color: #f8f8f2; } /* Literal */
+.highlight .n, .chroma .n { color: #f8f8f2; } /* Name */
+.highlight .o, .chroma .o { color: #ff79c6; } /* Operator */
+.highlight .x, .chroma .x { color: #f8f8f2; } /* Other */
+.highlight .p, .chroma .p { color: #f8f8f2; } /* Punctuation */
+.highlight .cm, .chroma .cm { color: #6272a4; } /* Comment.Multiline */
+.highlight .cp, .chroma .cp { color: #ff79c6; } /* Comment.Preproc */
+.highlight .c1, .chroma .c1 { color: #6272a4; } /* Comment.Single */
+.highlight .cs, .chroma .cs { color: #6272a4; } /* Comment.Special */
+.highlight .gd, .chroma .gd { color: #8b080b; } /* Generic.Deleted */
+.highlight .ge, .chroma .ge { color: #f8f8f2; font-style: italic; } /* Generic.Emph */
+.highlight .gr, .chroma .gr { color: #f8f8f2; } /* Generic.Error */
+.highlight .gh, .chroma .gh { color: #f8f8f2; font-weight: bold; } /* Generic.Heading */
+.highlight .gi, .chroma .gi { color: #f8f8f2; font-weight: bold; } /* Generic.Inserted */
+.highlight .go, .chroma .go { color: #44475a; } /* Generic.Output */
+.highlight .gp, .chroma .gp { color: #f8f8f2; } /* Generic.Prompt */
+.highlight .gs, .chroma .gs { color: #f8f8f2; font-weight: bold; } /* Generic.Strong */
+.highlight .gu, .chroma .gu { color: #f8f8f2; font-weight: bold; } /* Generic.Subheading */
+.highlight .gt, .chroma .gt { color: #f8f8f2; } /* Generic.Traceback */
+.highlight .kc, .chroma .kc { color: #ff79c6; } /* Keyword.Constant */
+.highlight .kd, .chroma .kd { color: #8be9fd; font-style: italic; } /* Keyword.Declaration */
+.highlight .kn, .chroma .kn { color: #ff79c6; } /* Keyword.Namespace */
+.highlight .kp, .chroma .kp { color: #ff79c6; } /* Keyword.Pseudo */
+.highlight .kr, .chroma .kr { color: #ff79c6; } /* Keyword.Reserved */
+.highlight .kt, .chroma .kt { color: #8be9fd; } /* Keyword.Type */
+.highlight .ld, .chroma .ld { color: #f8f8f2; } /* Literal.Date */
+.highlight .m, .chroma .m { color: #bd93f9; } /* Literal.Number */
+.highlight .s, .chroma .s { color: #f1fa8c; } /* Literal.String */
+.highlight .na, .chroma .na { color: #50fa7b; } /* Name.Attribute */
+.highlight .nb, .chroma .nb { color: #8be9fd; } /* Name.Builtin */
+.highlight .nc, .chroma .nc { color: #50fa7b; } /* Name.Class */
+.highlight .no, .chroma .no { color: #f8f8f2; } /* Name.Constant */
+.highlight .nd, .chroma .nd { color: #f8f8f2; } /* Name.Decorator */
+.highlight .ni, .chroma .ni { color: #f8f8f2; } /* Name.Entity */
+.highlight .ne, .chroma .ne { color: #f8f8f2; } /* Name.Exception */
+.highlight .nf, .chroma .nf { color: #50fa7b; } /* Name.Function */
+.highlight .nl, .chroma .nl { color: #8be9fd; font-style: italic; } /* Name.Label */
+.highlight .nn, .chroma .nn { color: #f8f8f2; } /* Name.Namespace */
+.highlight .nx, .chroma .nx { color: #f8f8f2; } /* Name.Other */
+.highlight .py, .chroma .py { color: #f8f8f2; } /* Name.Property */
+.highlight .nt, .chroma .nt { color: #ff79c6; } /* Name.Tag */
+.highlight .nv, .chroma .nv { color: #8be9fd; font-style: italic; } /* Name.Variable */
+.highlight .ow, .chroma .ow { color: #ff79c6; } /* Operator.Word */
+.highlight .w, .chroma .w { color: #f8f8f2; } /* Text.Whitespace */
+.highlight .mf, .chroma .mf { color: #bd93f9; } /* Literal.Number.Float */
+.highlight .mh, .chroma .mh { color: #bd93f9; } /* Literal.Number.Hex */
+.highlight .mi, .chroma .mi { color: #bd93f9; } /* Literal.Number.Integer */
+.highlight .mo, .chroma .mo { color: #bd93f9; } /* Literal.Number.Oct */
+.highlight .sb, .chroma .sb { color: #f1fa8c; } /* Literal.String.Backtick */
+.highlight .sc, .chroma .sc { color: #f1fa8c; } /* Literal.String.Char */
+.highlight .sd, .chroma .sd { color: #f1fa8c; } /* Literal.String.Doc */
+.highlight .s2, .chroma .s2 { color: #f1fa8c; } /* Literal.String.Double */
+.highlight .se, .chroma .se { color: #f1fa8c; } /* Literal.String.Escape */
+.highlight .sh, .chroma .sh { color: #f1fa8c; } /* Literal.String.Heredoc */
+.highlight .si, .chroma .si { color: #f1fa8c; } /* Literal.String.Interpol */
+.highlight .sx, .chroma .sx { color: #f1fa8c; } /* Literal.String.Other */
+.highlight .sr, .chroma .sr { color: #f1fa8c; } /* Literal.String.Regex */
+.highlight .s1, .chroma .s1 { color: #f1fa8c; } /* Literal.String.Single */
+.highlight .ss, .chroma .ss { color: #f1fa8c; } /* Literal.String.Symbol */
+.highlight .bp, .chroma .bp { color: #f8f8f2; font-style: italic; } /* Name.Builtin.Pseudo */
+.highlight .vc, .chroma .vc { color: #8be9fd; font-style: italic; } /* Name.Variable.Class */
+.highlight .vg, .chroma .vg { color: #8be9fd; font-style: italic; } /* Name.Variable.Global */
+.highlight .vi, .chroma .vi { color: #8be9fd; font-style: italic; } /* Name.Variable.Instance */
+
+// Line highlighting
+// .highlight .hl {
+//   background-color: #84194e;
+//   display: block;
+//   width: 100%;
+// }

@@ -1,0 +1,82 @@
+<!-- Fuse.js for search functionality -->
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js" 
+        integrity="sha256-xXM5w/oWsdadmmtGdJqBOe+NT8m7/kgUT/iXqn1CIuw=" 
+        crossorigin="anonymous"></script>
+
+{{- $js := resources.Get "js/main.js" }}
+{{- $opts := dict
+  "minify" (not hugo.IsDevelopment)
+  "sourceMap" (cond hugo.IsDevelopment "external" "")
+  "targetPath" "js/main.js"
+}}
+{{- $js = $js | js.Build $opts }}
+{{- if hugo.IsDevelopment }}
+  <script src="{{ $js.RelPermalink }}"></script>
+{{- else }}
+  {{- $js = $js | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
+
+<!-- Code Language Display JavaScript -->
+{{- $codeJs := resources.Get "js/code-language.js" }}
+{{- $codeOpts := dict
+  "minify" (not hugo.IsDevelopment)
+  "sourceMap" (cond hugo.IsDevelopment "external" "")
+  "targetPath" "js/code-language.js"
+}}
+{{- $codeJs = $codeJs | js.Build $codeOpts }}
+{{- if hugo.IsDevelopment }}
+  <script src="{{ $codeJs.RelPermalink }}"></script>
+{{- else }}
+  {{- $codeJs = $codeJs | fingerprint }}
+  <script src="{{ $codeJs.RelPermalink }}" integrity="{{ $codeJs.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
+
+<!-- Line Numbers Control JavaScript -->
+{{- $lineNumJs := resources.Get "js/line-numbers.js" }}
+{{- $lineNumOpts := dict
+  "minify" (not hugo.IsDevelopment)
+  "sourceMap" (cond hugo.IsDevelopment "external" "")
+  "targetPath" "js/line-numbers.js"
+}}
+{{- $lineNumJs = $lineNumJs | js.Build $lineNumOpts }}
+{{- if hugo.IsDevelopment }}
+  <script src="{{ $lineNumJs.RelPermalink }}"></script>
+{{- else }}
+  {{- $lineNumJs = $lineNumJs | fingerprint }}
+  <script src="{{ $lineNumJs.RelPermalink }}" integrity="{{ $lineNumJs.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
+
+<!-- Categories page specific JavaScript -->
+{{- if eq .Type "categories" }}
+  {{- $categoriesJs := resources.Get "js/categories.js" }}
+  {{- $categoriesOpts := dict
+    "minify" (not hugo.IsDevelopment)
+    "sourceMap" (cond hugo.IsDevelopment "external" "")
+    "targetPath" "js/categories.js"
+  }}
+  {{- $categoriesJs = $categoriesJs | js.Build $categoriesOpts }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ $categoriesJs.RelPermalink }}"></script>
+  {{- else }}
+    {{- $categoriesJs = $categoriesJs | fingerprint }}
+    <script src="{{ $categoriesJs.RelPermalink }}" integrity="{{ $categoriesJs.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- end }}
+{{- end }}
+
+<!-- Tags page specific JavaScript -->
+{{- if eq .Type "tags" }}
+  {{- $tagsJs := resources.Get "js/tags.js" }}
+  {{- $tagsOpts := dict
+    "minify" (not hugo.IsDevelopment)
+    "sourceMap" (cond hugo.IsDevelopment "external" "")
+    "targetPath" "js/tags.js"
+  }}
+  {{- $tagsJs = $tagsJs | js.Build $tagsOpts }}
+  {{- if hugo.IsDevelopment }}
+    <script src="{{ $tagsJs.RelPermalink }}"></script>
+  {{- else }}
+    {{- $tagsJs = $tagsJs | fingerprint }}
+    <script src="{{ $tagsJs.RelPermalink }}" integrity="{{ $tagsJs.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- end }}
+{{- end }}

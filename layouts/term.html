@@ -1,0 +1,67 @@
+{{ define "main" }}
+  <header class="terms-header">
+    <h1>{{ .Title }}</h1>
+    {{ if .Content }}
+      <div class="terms-description">
+        {{ .Content }}
+      </div>
+    {{ end }}
+  </header>
+  
+  <!-- Back button (hidden by default) -->
+  <div class="category-nav" style="display: none;">
+    <button class="back-button" onclick="showAllCategories()">← 返回所有分類</button>
+    <h2 class="current-category-title"></h2>
+  </div>
+  
+  <!-- Terms List -->
+  <div class="terms-list" id="categories-grid">
+    {{ range .Data.Terms.ByCount }}
+      <div class="term-item" onclick="showCategoryPosts('{{ .Page.Title }}', '{{ .Page.RelPermalink | jsonify }}')">
+        <div class="term-item__content">
+          <h2 class="term-item__title">{{ .Page.Title }}</h2>
+          <span class="term-item__count">{{ .Count }}</span>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+  
+  <!-- Posts List (hidden by default) -->
+  <div class="posts-list" id="posts-list" style="display: none;">
+    <!-- Posts will be loaded here dynamically -->
+  </div>
+  
+  <!-- Hidden data for JavaScript -->
+  <script type="application/json" id="posts-data">
+    {
+      {{ $first := true }}
+      {{ range .Data.Terms.ByCount }}
+        {{ if not $first }},{{ end }}
+        "{{ .Page.Title }}": [
+          {{ $postFirst := true }}
+          {{ range .Pages }}
+            {{ if not $postFirst }},{{ end }}
+            {
+              "title": {{ .Title | jsonify }},
+              "url": {{ .RelPermalink | jsonify }},
+              "date": {{ .Date.Format "2006-01-02" | jsonify }},
+              "dateFormatted": {{ .Date.Format "2006年1月2日" | jsonify }},
+              "summary": {{ .Summary | jsonify }},
+              "readingTime": {{ .ReadingTime }},
+              "tags": [
+                {{ $tagFirst := true }}
+                {{ range .Params.tags }}
+                  {{ if not $tagFirst }},{{ end }}
+                  {{ . | jsonify }}
+                  {{ $tagFirst = false }}
+                {{ end }}
+              ]
+            }
+            {{ $postFirst = false }}
+          {{ end }}
+        ]
+        {{ $first = false }}
+      {{ end }}
+    }
+  </script>
+{{ end }}

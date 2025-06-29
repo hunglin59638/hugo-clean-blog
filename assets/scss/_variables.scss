@@ -1,0 +1,62 @@
+// CSS Variables for theme colors
+:root {
+  // Light mode colors
+  --bg-color: #FFFFFF;
+  --text-color: #212529;
+  --heading-color: #111111;
+  --link-color: #E85D04;
+  --accent-color: #E85D04;
+  --code-bg-color: #F1F1F1;
+  --border-color: #E9ECEF;
+  --card-bg-color: #FFFFFF;
+  --nav-bg-color: rgba(248, 249, 250, 0.95);
+  --hover-bg-color: #F8F9FA;
+  
+  // Spacing
+  --container-max-width: 1200px;
+  --nav-height: 60px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
+  
+  // Typography
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+  
+  // Transitions
+  --transition-base: all 0.3s ease;
+}
+
+// Dark mode colors
+[data-theme="dark"] {
+  --bg-color: #1A1A1A;
+  --text-color: #E0E0E0;
+  --heading-color: #FFFFFF;
+  --link-color: #FF9E44;
+  --accent-color: #f08c2f;
+  --code-bg-color: #282C34;
+  --border-color: #404040;
+  --card-bg-color: #2D2D2D;
+  --nav-bg-color: rgba(26, 26, 26, 0.95);
+  --hover-bg-color: #404040;
+}
+
+// Auto mode - respects system preference
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    --bg-color: #1A1A1A;
+    --text-color: #E0E0E0;
+    --heading-color: #FFFFFF;
+    --link-color: #FF9E44;
+    --accent-color: #FF9E44;
+    --code-bg-color: #282C34;
+    --border-color: #404040;
+    --card-bg-color: #2D2D2D;
+    --nav-bg-color: rgba(26, 26, 26, 0.95);
+  }
+}

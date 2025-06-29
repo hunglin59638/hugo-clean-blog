@@ -1,0 +1,75 @@
+{{ define "main" }}
+  <header class="taxonomy-header">
+    <h1>{{ .Title }}</h1>
+    {{ if .Content }}
+      <div class="taxonomy-description">
+        {{ .Content }}
+      </div>
+    {{ end }}
+    <p class="taxonomy-count">共 {{ len .Pages }} 篇文章</p>
+  </header>
+  
+  <!-- Posts List -->
+  <div class="posts-list">
+    {{ $paginator := .Paginate .Pages }}
+    {{ range $paginator.Pages }}
+      <article class="post-card" onclick="window.location.href='{{ .RelPermalink }}';" style="cursor:pointer;">
+        <header class="post-card__header">
+          <h2 class="post-card__title">
+            <a href="{{ .RelPermalink }}" onclick="event.stopPropagation();">{{ .Title }}</a>
+          </h2>
+          
+          <div class="post-card__meta">
+            <span class="meta-item">
+              <time datetime="{{ .Date.Format `2006-01-02` }}">
+                {{ .Date.Format "2006年1月2日" }}
+              </time>
+            </span>
+            
+            {{ if site.Params.enableReadingTime }}
+              <span class="meta-item">{{ .ReadingTime }} 分鐘閱讀</span>
+            {{ end }}
+          </div>
+        </header>
+        
+        {{ if .Summary }}
+          <div class="post-card__summary">
+            {{ .Summary | plainify | truncate 100 }}
+          </div>
+        {{ end }}
+        
+        <footer class="post-card__footer">
+          <!-- Show tags for posts in categories -->
+          {{ if .Params.tags }}
+            <div class="post-card__tags">
+              {{ range .Params.tags }}
+                <a href="{{ `/tags/` | relURL }}{{ . | urlize }}/" class="tag" onclick="event.stopPropagation();">{{ . }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+        </footer>
+      </article>
+    {{ end }}
+  </div>
+  
+  <!-- Pagination -->
+  {{ if gt $paginator.TotalPages 1 }}
+    <nav class="pagination" aria-label="分頁導航">
+      {{ if $paginator.HasPrev }}
+        <a href="{{ $paginator.Prev.URL }}" class="pagination__link">← 上一頁</a>
+      {{ end }}
+      
+      {{ range $paginator.Pagers }}
+        {{ if eq . $paginator }}
+          <span class="pagination__link current">{{ .PageNumber }}</span>
+        {{ else }}
+          <a href="{{ .URL }}" class="pagination__link">{{ .PageNumber }}</a>
+        {{ end }}
+      {{ end }}
+      
+      {{ if $paginator.HasNext }}
+        <a href="{{ $paginator.Next.URL }}" class="pagination__link">下一頁 →</a>
+      {{ end }}
+    </nav>
+  {{ end }}
+{{ end }}

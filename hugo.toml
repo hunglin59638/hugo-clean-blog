@@ -1,0 +1,66 @@
+baseURL = 'https://example.org/'
+languageCode = 'zh-TW'
+title = 'Clean Blog'
+theme = 'blog'
+
+# Enable syntax highlighting
+[markup]
+  [markup.highlight]
+    style = 'dracula'
+    lineNos = true
+    lineNumbersInTable = false
+    noClasses = false
+
+# Pagination
+paginate = 10
+paginatePath = 'page'
+
+# Taxonomies
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# Menu configuration
+[menus]
+  [[menus.main]]
+    name = 'Home'
+    pageRef = '/'
+    weight = 10
+
+  [[menus.main]]
+    name = 'Categories'
+    pageRef = '/categories'
+    weight = 20
+
+  [[menus.main]]
+    name = 'Tags'
+    pageRef = '/tags'
+    weight = 30
+
+  [[menus.main]]
+    name = 'Archives'
+    pageRef = '/archives'
+    weight = 40
+
+# Theme parameters
+[params]
+  author = 'Your Name'
+  description = 'A clean, minimal blog theme for Hugo'
+  
+  # Theme settings
+  defaultTheme = 'auto' # light, dark, auto
+  enableReadingTime = true
+  enableWordCount = true
+  enableTOC = true
+  
+  # Social media links
+  [params.social]
+    github = 'hunglin59638'
+    twitter = 'hunglin59638'
+    linkedin = 'hunglin59638'
+    email = 'hunglin59638@gmail.com'
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = '0.146.0'

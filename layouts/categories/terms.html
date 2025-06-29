@@ -1,0 +1,63 @@
+{{ define "main" }}
+  <header class="terms-header">
+    <h1>{{ .Title }}</h1>
+    {{ if .Content }}
+      <div class="terms-description">
+        {{ .Content }}
+      </div>
+    {{ end }}
+  </header>
+  
+  <!-- Navigation for category view -->
+  <nav class="category-nav" style="display: none;">
+  </nav>
+  
+  <!-- Categories Grid -->
+  <div id="categories-grid" class="terms-list">
+    {{ range .Data.Terms.ByCount }}
+      <div class="term-item" onclick="showCategoryPosts('{{ .Page.Title }}', '{{ .Page.RelPermalink }}', event); return false;">
+        <div class="term-item__content">
+          <h2 class="term-item__title">{{ .Page.Title }}</h2>
+          <span class="term-item__count">{{ .Count }} 篇文章</span>
+        </div>
+      </div>
+    {{ end }}
+  </div>
+  
+  <!-- Posts List (hidden by default) -->
+  <div id="posts-list" class="posts-list" style="display: none;"></div>
+  
+  <!-- Posts Data for JavaScript -->
+  <script id="posts-data" type="application/json">
+    {
+      {{ $first := true }}
+      {{ range .Data.Terms.ByCount }}
+        {{ if not $first }},{{ end }}
+        {{ $first = false }}
+        "{{ .Page.Title }}": [
+          {{ $postFirst := true }}
+          {{ range .Pages }}
+            {{ if not $postFirst }},{{ end }}
+            {{ $postFirst = false }}
+            {
+              "title": {{ .Title | jsonify }},
+              "url": {{ .RelPermalink | jsonify }},
+              "date": {{ .Date.Format "2006-01-02" | jsonify }},
+              "dateFormatted": {{ .Date.Format "2006年1月2日" | jsonify }},
+              "readingTime": {{ .ReadingTime }},
+              "summary": {{ with .Summary }}{{ . | plainify | truncate 100 | jsonify }}{{ else }}""{{ end }},
+              "tags": [
+                {{ $tagFirst := true }}
+                {{ range .Params.tags }}
+                  {{ if not $tagFirst }},{{ end }}
+                  {{ $tagFirst = false }}
+                  {{ . | jsonify }}
+                {{ end }}
+              ]
+            }
+          {{ end }}
+        ]
+      {{ end }}
+    }
+  </script>
+{{ end }}

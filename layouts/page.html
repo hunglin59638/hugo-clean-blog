@@ -1,0 +1,122 @@
+{{ define "main" }}
+<div class="post-layout">
+  <article class="post">
+    <!-- Post Header -->
+    <header class="post__header">
+      <h1 class="post__title">{{ .Title }}</h1>
+      <hr class="post-meta-sep" style="margin-bottom:10px;" />
+      <div class="post-meta" style="border:none;padding:0;margin:0;background:none;box-shadow:none;">
+        <style>
+          .post-meta__item {
+            margin-bottom: 10px;
+          }
+          .post-meta__item:last-child {
+            margin-bottom: 0;
+          }
+        </style>
+        {{/* 發布時間 */}}
+        <div class="post-meta__item"><strong>發布時間：</strong>{{ .Date.Format "2006年1月2日" }}</div>
+        {{/* 更新時間（僅當不同於發布時間時顯示） */}}
+        {{ if ne .Date .Lastmod }}
+          <div class="post-meta__item"><strong>更新時間：</strong>{{ .Lastmod.Format "2006年1月2日" }}</div>
+        {{ end }}
+        {{/* 作者（有設定才顯示） */}}
+        {{ with .Params.author }}
+          <div class="post-meta__item"><strong>作者：</strong>{{ . }}</div>
+        {{ end }}
+        {{/* 字數統計（有啟用才顯示） */}}
+        {{ if site.Params.enableWordCount }}
+          <div class="post-meta__item"><strong>字數統計：</strong>約{{ .FuzzyWordCount }} 字</div>
+        {{ end }}
+        {{/* 閱讀時間（有啟用才顯示） */}}
+        {{ if site.Params.enableReadingTime }}
+          <div class="post-meta__item"><strong>閱讀時間：</strong>{{ .ReadingTime }} 分鐘</div>
+        {{ end }}
+      </div>
+      <hr class="post-meta-sep" style="margin-top:10px;" />
+    </header>
+  
+    <!-- Post Content -->
+    <div class="post__content">
+      {{ .Content }}
+    </div>
+
+    <!-- Post Footer -->
+    <footer class="post__footer">
+      <!-- Categories and Tags -->
+      {{ if or .Params.categories .Params.tags }}
+        <div class="post__terms">
+          {{ if .Params.categories }}
+            <div class="post__categories">
+              <strong>分類：</strong>
+              {{ range $index, $category := .Params.categories }}
+                {{ if gt $index 0 }}, {{ end }}
+                <a href="{{ `/categories/` | relURL }}{{ $category | urlize }}" class="category">{{ $category }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+          
+          {{ if .Params.tags }}
+            <div class="post__tags">
+              <strong>標籤：</strong>
+              {{ range $index, $tag := .Params.tags }}
+                {{ if gt $index 0 }}, {{ end }}
+                <a href="{{ `/tags/` | relURL }}{{ $tag | urlize }}" class="tag">{{ $tag }}</a>
+              {{ end }}
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
+      
+      <!-- Social Share Buttons -->
+      <div class="post__share">
+        <strong>分享此文：</strong>
+        <div class="share-buttons">
+          <a href="https://twitter.com/intent/tweet?url={{ .Permalink | safeURL }}&text={{ .Title | safeURL }}" 
+             target="_blank" rel="noopener noreferrer" class="share-button share-button--twitter">
+            Twitter
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink | safeURL }}" 
+             target="_blank" rel="noopener noreferrer" class="share-button share-button--facebook">
+            Facebook
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ .Permalink | safeURL }}" 
+             target="_blank" rel="noopener noreferrer" class="share-button share-button--linkedin">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </footer>
+  </article>
+  
+  <!-- Sidebar with TOC -->
+  {{ if site.Params.enableTOC }}
+    <aside class="toc-sidebar">
+      <div class="toc-sidebar__content">
+        <div class="toc-sidebar__title">目錄</div>
+        {{ .TableOfContents }}
+      </div>
+    </aside>
+  {{ end }}
+</div>
+
+<!-- Navigation to Next/Previous Posts -->
+{{ $related := .Site.RegularPages.Related . | first 5 }}
+{{ with $related }}
+  <div class="related-posts">
+    <h3>相關文章</h3>
+    <div class="related-posts__list">
+      {{ range . }}
+        <article class="related-post">
+          <h4><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+          <div class="related-post__meta">
+            <time datetime="{{ .Date.Format `2006-01-02` }}">
+              {{ .Date.Format "2006年1月2日" }}
+            </time>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
+{{ end }}
