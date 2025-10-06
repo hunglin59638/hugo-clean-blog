@@ -5,6 +5,9 @@ theme = 'blog'
 
 # Enable syntax highlighting
 [markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
   [markup.highlight]
     style = 'dracula'
     lineNos = true

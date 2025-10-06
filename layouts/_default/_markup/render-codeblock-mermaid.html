@@ -1,0 +1,9 @@
+{{- $mermaid := resources.GetRemote "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs" | resources.Fingerprint "sha512" -}}
+{{- if not (.Page.Store.Get "hasMermaid") -}}
+  {{- $init := printf "import mermaid from \"%s\";\nmermaid.initialize({ startOnLoad: true });\n" $mermaid.RelPermalink | resources.FromString "js/mermaid-init.js" | resources.Fingerprint "sha512" -}}
+  <script type="module" src="{{ $init.RelPermalink }}" integrity="{{ $init.Data.Integrity }}" crossorigin="anonymous"></script>
+  {{- .Page.Store.Set "hasMermaid" true -}}
+{{- end -}}
+<div class="mermaid">
+  {{- .Inner | safeHTML -}}
+</div>
